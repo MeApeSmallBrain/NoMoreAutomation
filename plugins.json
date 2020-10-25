@@ -1,0 +1,34 @@
+[
+  {
+    "projectUrl": "https://discord.gg/7W9aBCb",
+    "provider": "NoMore",
+    "name": "NMAUtils",
+    "description": "Plugin required for numerous plugins created by NoMore.",
+    "id": "nmautils-plugin",
+    "releases": [
+      {
+        "date": "2020-10-25",
+        "sha512sum": "720f53e9310de01896765be30b5ee6b1b716b821d534583202e425e2a0ba290f4427ba3fbf04862b542591141dad6a4776c99fc6218a205f16c602bb551246e8",
+        "version": "0.1.0",
+        "url": "https://github.com/TomMartow/nomoreplugins/blob/master/release/NMAUtils-0.1.0.jar?raw=true",
+        "requires":"0.0.1"
+      }
+    ]
+  },
+  {
+    "projectUrl": "https://discord.gg/7W9aBCb",
+    "provider": "NoMore",
+    "name": "NMA Alcher",
+    "description": "Alch's items in the inventory.",
+    "id": "nmaalcher-plugin",
+    "releases": [
+      {
+        "date": "2020-10-25",
+        "sha512sum": "7d28afcfaf6a830c2ce0a87dfc817d83475110ca00fba1d64674f7a04cde6a15a608fd1af089b5fa7b611343773a59cccdf19474e173d30648e5216dbc0d3d2c",
+        "version": "0.1.0",
+        "url": "https://github.com/TomMartow/nomoreplugins/blob/master/release/NMAAlcher--0.1.0.jar?raw=true",
+        "requires":"0.0.1"
+      }
+    ]
+  }
+]

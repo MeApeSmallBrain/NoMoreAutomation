@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Plugin-Version: 0.1.0
+Plugin-Id: nmaalcher-plugin
+Plugin-Provider: NoMore
+Plugin-Dependencies: nmautils-plugin
+Plugin-Description: Alch's items in the inventory.
+Plugin-License: GNU General Public License v3.0
+
