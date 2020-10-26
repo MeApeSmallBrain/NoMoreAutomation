@@ -2,7 +2,7 @@ rootProject.name = "nomoreautomation"
 
 include(":NMAUtils")
 include(":NMAAlcher")
-include(":TestingPlugin")
+include(":TestingPlugin") //test
 
 for (project in rootProject.children) {
     project.apply {
