@@ -1,1 +1,1 @@
-# NoMore Automated OpenOSRS Plugins
+# NoMore Automation Plugins

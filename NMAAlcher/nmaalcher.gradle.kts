@@ -1,3 +1,5 @@
+import ProjectVersions.openosrsVersion
+
 /*
  * Copyright (c) 2019 Owain van Brakel <https://github.com/Owain94>
  * All rights reserved.
@@ -23,13 +25,23 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "0.1.0"
+version = "0.0.1"
 
-project.extra["PluginName"] = "NMA Alcher"
-project.extra["PluginDescription"] = "Alch's items in the inventory."
+project.extra["PluginName"] = "NMAUtils"
+project.extra["PluginDescription"] = "Plugin required for numerous plugins created by NoMore."
 
 dependencies {
-    implementation(project(":NMAUtils"))
+    annotationProcessor(Libraries.lombok)
+    annotationProcessor(Libraries.pf4j)
+
+    compileOnly("com.openosrs:runelite-api:$openosrsVersion+")
+    compileOnly("com.openosrs:runelite-client:$openosrsVersion+")
+    compileOnly(project(":NMAUtils"))
+
+    compileOnly(Libraries.guice)
+    compileOnly(Libraries.javax)
+    compileOnly(Libraries.lombok)
+    compileOnly(Libraries.pf4j)
 }
 
 tasks {
