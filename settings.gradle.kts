@@ -1,4 +1,4 @@
-rootProject.name = "nomoreautomation"
+rootProject.name = "NoMoreAutomation"
 
 include(":NMAUtils")
 include(":NMAAlcher")

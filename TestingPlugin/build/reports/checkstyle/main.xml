@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="8.25">
-<file name="C:\Users\thoma\IdeaProjects\nomoreautomation\TestingPlugin\src\main\java\net\runelite\client\plugins\pluginbase\TestC.java">
+<file name="C:\Users\thoma\IdeaProjects\NoMoreAutomation\TestingPlugin\src\main\java\net\runelite\client\plugins\pluginbase\TestC.java">
 <error line="27" severity="error" message="Multiline imports are disallowed if they are not static" source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
 <error line="53" column="40" severity="error" message="&apos;{&apos; at column 33 should be on a new line." source="com.puppycrawl.tools.checkstyle.checks.blocks.LeftCurlyCheck"/>
 <error line="65" column="40" severity="error" message="&apos;{&apos; at column 33 should be on a new line." source="com.puppycrawl.tools.checkstyle.checks.blocks.LeftCurlyCheck"/>
@@ -11,7 +11,7 @@
 <error line="136" column="28" severity="error" message="&apos;{&apos; at column 21 should be on a new line." source="com.puppycrawl.tools.checkstyle.checks.blocks.LeftCurlyCheck"/>
 <error line="148" column="41" severity="error" message="&apos;{&apos; at column 34 should be on a new line." source="com.puppycrawl.tools.checkstyle.checks.blocks.LeftCurlyCheck"/>
 </file>
-<file name="C:\Users\thoma\IdeaProjects\nomoreautomation\TestingPlugin\src\main\java\net\runelite\client\plugins\pluginbase\TestO.java">
+<file name="C:\Users\thoma\IdeaProjects\NoMoreAutomation\TestingPlugin\src\main\java\net\runelite\client\plugins\pluginbase\TestO.java">
 <error line="31" severity="error" message="Multiline imports are disallowed if they are not static" source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
 <error line="39" severity="error" message="Indent must use tab characters" source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
 <error line="40" severity="error" message="Indent must use tab characters" source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
@@ -55,7 +55,7 @@
 <error line="87" severity="error" message="Indent must use tab characters" source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
 <error line="88" severity="error" message="Indent must use tab characters" source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
 </file>
-<file name="C:\Users\thoma\IdeaProjects\nomoreautomation\TestingPlugin\src\main\java\net\runelite\client\plugins\pluginbase\TestP.java">
+<file name="C:\Users\thoma\IdeaProjects\NoMoreAutomation\TestingPlugin\src\main\java\net\runelite\client\plugins\pluginbase\TestP.java">
 <error line="32" severity="error" message="Multiline imports are disallowed if they are not static" source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
 <error line="45" severity="error" message="Multiline imports are disallowed if they are not static" source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
 <error line="60" column="35" severity="error" message="&apos;{&apos; at column 35 should be on a new line." source="com.puppycrawl.tools.checkstyle.checks.blocks.LeftCurlyCheck"/>
