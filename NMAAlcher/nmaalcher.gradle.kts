@@ -27,8 +27,8 @@ import ProjectVersions.openosrsVersion
 
 version = "0.0.1"
 
-project.extra["PluginName"] = "NMAUtils"
-project.extra["PluginDescription"] = "Plugin required for numerous plugins created by NoMore."
+project.extra["PluginName"] = "NMA Alcher"
+project.extra["PluginDescription"] = "Alch's items in the inventory."
 
 dependencies {
     annotationProcessor(Libraries.lombok)
