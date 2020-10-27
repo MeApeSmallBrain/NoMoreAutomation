@@ -27,7 +27,6 @@ rootProject.name = "NoMoreAutomation"
 
 include(":NMAUtils")
 include(":NMAAlcher")
-//include(":NewPlugin")
 
 for (project in rootProject.children) {
     project.apply {
