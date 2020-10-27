@@ -22,10 +22,10 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.nomore.nmaalcher;
+package net.runelite.client.plugins.nmaalcher;
+
 
 import net.runelite.client.config.*;
-
 
 @ConfigGroup("nmaalcher")
 public interface NMAAlcherConfig extends Config

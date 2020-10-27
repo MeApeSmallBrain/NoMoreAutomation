@@ -1,37 +1,21 @@
-package com.example.nmautils.api;
+package net.runelite.client.plugins.nmautils.api;
 
-import com.example.nmautils.NMAUtilsConfig;
-import net.runelite.api.*;
+import net.runelite.api.GameObject;
+import net.runelite.api.MenuEntry;
+import net.runelite.api.MenuOpcode;
+import net.runelite.api.NPC;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.api.widgets.WidgetItem;
-import net.runelite.client.callback.ClientThread;
-import net.runelite.client.config.ConfigManager;
-import net.runelite.client.ui.overlay.Overlay;
-import net.runelite.client.ui.overlay.OverlayManager;
+import net.runelite.client.plugins.nmautils.NMAUtils;
 
 import javax.inject.Inject;
 
 public class MenuAPI
 {
-    @Inject private Client client;
-    @Inject private ClientThread clientThread;
-    @Inject private OverlayManager overlayManager;
-    @Inject private ConfigManager configManager;
-    @Inject private com.example.nmautils.NMAUtils NMAUtils;
-    @Inject private NMAUtilsConfig config;
-    @Inject private Overlay overlay;
-    @Inject private DebugAPI debug;
-    @Inject private InventoryAPI inventory;
-    @Inject private MathAPI math;
-    @Inject private MouseAPI mouse;
-    @Inject private NPCAPI npc;
-    @Inject private PlayerAPI player;
-    @Inject private PointAPI point;
-    @Inject private RenderAPI render;
-    @Inject private SleepAPI sleep;
-    @Inject private StringAPI string;
-    @Inject private TimeAPI time;
+
+    @Inject
+    private NMAUtils utils;
 
     public MenuEntry interactWithNPC(NPC npc)
     {
@@ -131,7 +115,7 @@ public class MenuAPI
 
     public void setMenuEntry(MenuEntry m)
     {
-        NMAUtils.targetMenu = new MenuEntry(
+        utils.targetMenu = new MenuEntry(
                 m.getOption(),
                 m.getTarget(),
                 m.getIdentifier(),
@@ -140,4 +124,5 @@ public class MenuAPI
                 m.getParam1(),
                 m.isForceLeftClick());
     }
+
 }

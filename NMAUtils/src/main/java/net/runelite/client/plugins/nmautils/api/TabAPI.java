@@ -1,4 +1,4 @@
-package com.example.nmautils.api;
+package net.runelite.client.plugins.nmautils.api;
 
 import net.runelite.api.Client;
 import net.runelite.api.GameState;
@@ -10,7 +10,7 @@ public class TabAPI
 {
 
     @Inject
-    Client client;
+    private Client client;
 
     public static int COMBAT = 0;
     public static int SKILLS = 1;
@@ -59,6 +59,5 @@ public class TabAPI
 
         return !client.getWidget(WidgetInfo.SPELLBOOK).isHidden();
     }
-
 
 }

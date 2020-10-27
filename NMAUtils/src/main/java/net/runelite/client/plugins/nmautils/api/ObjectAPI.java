@@ -1,16 +1,9 @@
-package com.example.nmautils.api;
+package net.runelite.client.plugins.nmautils.api;
 
-import com.example.nmautils.NMAUtilsConfig;
 import net.runelite.api.Client;
 import net.runelite.api.GameObject;
-import net.runelite.api.NPC;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.queries.GameObjectQuery;
-import net.runelite.api.queries.NPCQuery;
-import net.runelite.client.callback.ClientThread;
-import net.runelite.client.config.ConfigManager;
-import net.runelite.client.ui.overlay.Overlay;
-import net.runelite.client.ui.overlay.OverlayManager;
 
 import javax.inject.Inject;
 import java.util.Arrays;
@@ -22,24 +15,11 @@ import java.util.stream.Collectors;
 public class ObjectAPI
 {
 
-    @Inject private Client client;
-    @Inject private ClientThread clientThread;
-    @Inject private OverlayManager overlayManager;
-    @Inject private ConfigManager configManager;
-    @Inject private com.example.nmautils.NMAUtils NMAUtils;
-    @Inject private NMAUtilsConfig config;
-    @Inject private Overlay overlay;
-    @Inject private DebugAPI debug;
-    @Inject private InventoryAPI inventory;
-    @Inject private MathAPI math;
-    @Inject private MenuAPI menu;
-    @Inject private MouseAPI mouse;
-    @Inject private PlayerAPI player;
-    @Inject private PointAPI point;
-    @Inject private RenderAPI render;
-    @Inject private SleepAPI sleep;
-    @Inject private StringAPI string;
-    @Inject private TimeAPI time;
+    @Inject
+    private Client client;
+
+    @Inject
+    private StringAPI string;
 
     public List<GameObject> getGameObjects()
     {
@@ -242,7 +222,7 @@ public class ObjectAPI
                 .orElse(null);
     }
 
-    public List<NPC> getGameObjectsWithinDistanceTo(String[] objectNames, WorldPoint comparisonTile, int maxTileDistance)
+    public List<GameObject> getGameObjectsWithinDistanceTo(String[] objectNames, WorldPoint comparisonTile, int maxTileDistance)
     {
         assert client.isClientThread();
 
@@ -251,14 +231,15 @@ public class ObjectAPI
             return null;
         }
 
-        return new NPCQuery()
+        return new GameObjectQuery()
                 .isWithinDistance(comparisonTile, maxTileDistance)
                 .result(client)
                 .stream()
                 .filter(gameObject -> gameObject != null
                         && Arrays.stream(objectNames)
                         .anyMatch(objectName -> string.removeWhiteSpaces(objectName)
-                                .equalsIgnoreCase(string.removeWhiteSpaces(gameObject.getName()))))
+                                .equalsIgnoreCase(string.removeWhiteSpaces(client.getObjectDefinition(gameObject.getId())
+                                        .getName()))))
                 .sorted(Comparator.comparing(entityType -> entityType
                         .getLocalLocation()
                         .distanceTo(client.getLocalPlayer()
@@ -266,7 +247,7 @@ public class ObjectAPI
                 .collect(Collectors.toList());
     }
 
-    public List<NPC> getGameObjectsWithinDistanceTo(Integer[] objectIds, WorldPoint comparisonTile, int maxTileDistance)
+    public List<GameObject> getGameObjectsWithinDistanceTo(Integer[] objectIds, WorldPoint comparisonTile, int maxTileDistance)
     {
         assert client.isClientThread();
 
@@ -275,7 +256,7 @@ public class ObjectAPI
             return null;
         }
 
-        return new NPCQuery()
+        return new GameObjectQuery()
                 .isWithinDistance(comparisonTile, maxTileDistance)
                 .result(client)
                 .stream()

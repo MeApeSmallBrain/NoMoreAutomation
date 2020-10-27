@@ -1,10 +1,7 @@
-package com.example.nmautils;
+package net.runelite.client.plugins.nmautils;
 
-import com.example.nmautils.api.*;
+
 import com.google.inject.Provides;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,10 +17,12 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.plugins.PluginType;
-import net.runelite.client.ui.overlay.Overlay;
+import net.runelite.client.plugins.nmautils.api.DebugAPI;
 import net.runelite.client.ui.overlay.OverlayManager;
 import org.pf4j.Extension;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.time.LocalTime;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -41,26 +40,13 @@ public class NMAUtils extends Plugin
 {
 	@Inject private Client client;
 	@Inject private ClientThread clientThread;
-	@Inject public ExecutorService executor;
 	@Inject private OverlayManager overlayManager;
 	@Inject private ConfigManager configManager;
-	@Inject private NMAUtilsConfig config;
-	@Inject private Overlay overlay;
 
+	@Inject private NMAUtilsConfig config;
+	@Inject private NMAUtilsOverlay overlay;
+	@Inject public ExecutorService executor;
 	@Inject private DebugAPI debug;
-	@Inject private EquipmentAPI equipment;
-	@Inject private InventoryAPI inventory;
-	@Inject private MathAPI math;
-	@Inject private MenuAPI menu;
-	@Inject private MouseAPI mouse;
-	@Inject private NPCAPI npc;
-	@Inject private PlayerAPI player;
-	@Inject private PointAPI point;
-	@Inject private RenderAPI render;
-	@Inject private SleepAPI sleep;
-	@Inject private StringAPI string;
-	@Inject private TabAPI tabs;
-	@Inject private TimeAPI time;
 
 	@Provides
 	NMAUtilsConfig provideConfig(ConfigManager configManager)
@@ -95,6 +81,7 @@ public class NMAUtils extends Plugin
 	@Subscribe
 	private void on(MenuOptionClicked e)
 	{
+
 		if (targetMenu != null)
 		{
 			e.setMenuEntry(targetMenu);
@@ -106,11 +93,13 @@ public class NMAUtils extends Plugin
 					targetMenu.getParam1());
 			targetMenu = null;
 		}
+
 	}
 
 	@Subscribe
 	private void on(MenuEntryAdded e)
 	{
+
 		if (targetMenu != null)
 		{
 			client.insertMenuItem("",
@@ -121,23 +110,28 @@ public class NMAUtils extends Plugin
 					targetMenu.getParam1(),
 					targetMenu.isForceLeftClick());
 		}
+
 	}
 
 	public boolean runScript(int tickDelay)
 	{
+
 		if (!iterating && tickDelay > 0)
 		{
 			debug.log(tickDelay + " ticks left until action");
 			return false;
 		}
+
 		if (lock)
 		{
 			return false;
 		}
+
 		if (iterating)
 		{
 			return false;
 		}
+
 		return true;
 	}
 

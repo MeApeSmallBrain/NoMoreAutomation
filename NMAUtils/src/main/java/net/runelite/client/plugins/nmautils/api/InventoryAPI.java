@@ -1,15 +1,11 @@
-package com.example.nmautils.api;
+package net.runelite.client.plugins.nmautils.api;
 
-import com.example.nmautils.NMAUtilsConfig;
 import net.runelite.api.Client;
 import net.runelite.api.queries.InventoryWidgetItemQuery;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.api.widgets.WidgetItem;
-import net.runelite.client.callback.ClientThread;
-import net.runelite.client.config.ConfigManager;
-import net.runelite.client.ui.overlay.Overlay;
-import net.runelite.client.ui.overlay.OverlayManager;
+import net.runelite.client.plugins.nmautils.NMAUtils;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -20,24 +16,30 @@ import java.util.stream.Collectors;
 
 public class InventoryAPI
 {
-    @Inject private Client client;
-    @Inject private ClientThread clientThread;
-    @Inject private OverlayManager overlayManager;
-    @Inject private ConfigManager configManager;
-    @Inject private com.example.nmautils.NMAUtils NMAUtils;
-    @Inject private NMAUtilsConfig config;
-    @Inject private Overlay overlay;
-    @Inject private DebugAPI debug;
-    @Inject private MathAPI math;
-    @Inject private MenuAPI menu;
-    @Inject private MouseAPI mouse;
-    @Inject private NPCAPI npc;
-    @Inject private PlayerAPI player;
-    @Inject private PointAPI point;
-    @Inject private RenderAPI render;
-    @Inject private SleepAPI sleep;
-    @Inject private StringAPI string;
-    @Inject private TimeAPI time;
+
+    @Inject
+    private Client client;
+
+    @Inject
+    private NMAUtils utils;
+
+    @Inject
+    private StringAPI string;
+
+    @Inject
+    private MenuAPI menu;
+
+    @Inject
+    private MouseAPI mouse;
+
+    @Inject
+    private SleepAPI sleep;
+
+    @Inject
+    private PointAPI point;
+
+    @Inject
+    private MathAPI math;
 
     public WidgetItem getItem(String itemName)
     {
@@ -145,11 +147,11 @@ public class InventoryAPI
             System.out.println("The items are null.");
             return;
         }
-        NMAUtils.executor.submit(() ->
+        utils.executor.submit(() ->
         {
             try
             {
-                NMAUtils.iterating = true;
+                utils.iterating = true;
                 System.out.println("Dropping " + items.size() + " items.");
                 for (WidgetItem item : items)
                 {
@@ -158,11 +160,11 @@ public class InventoryAPI
                     mouse.clickInstant(point.getClickPoint(item.getCanvasBounds()));
                     sleep.forXMillis(math.getRandomInt(150, 400));
                 }
-                NMAUtils.iterating = false;
+                utils.iterating = false;
             }
             catch (RuntimeException e)
             {
-                NMAUtils.iterating = false;
+                utils.iterating = false;
                 e.printStackTrace();
             }
         });
@@ -190,7 +192,7 @@ public class InventoryAPI
 
     public void dropItem(WidgetItem item)
     {
-        NMAUtils.executor.submit(() ->
+        utils.executor.submit(() ->
         {
             try
             {
@@ -221,22 +223,22 @@ public class InventoryAPI
             System.out.println("The items are null.");
             return;
         }
-        NMAUtils.executor.submit(() ->
+        utils.executor.submit(() ->
         {
             try
             {
-                NMAUtils.iterating = true;
+                utils.iterating = true;
                 for (WidgetItem item : items)
                 {
                     menu.setMenuEntry(menu.dropItem(item));
                     mouse.clickInstant(point.getClickPoint(item.getCanvasBounds()));
                     sleep.forXMillis(math.getRandomInt(150, 400));
                 }
-                NMAUtils.iterating = false;
+                utils.iterating = false;
             }
             catch (RuntimeException e)
             {
-                NMAUtils.iterating = false;
+                utils.iterating = false;
                 e.printStackTrace();
             }
         });
@@ -254,11 +256,11 @@ public class InventoryAPI
             return;
         }
         List<WidgetItem> items = Arrays.asList(item1, item2);
-        NMAUtils.executor.submit(() ->
+        utils.executor.submit(() ->
         {
             try
             {
-                NMAUtils.iterating = true;
+                utils.iterating = true;
                 for (WidgetItem item : items)
                 {
                     menu.setMenuEntry(menu.useItem(item));
@@ -266,11 +268,11 @@ public class InventoryAPI
                     sleep.forXMillis(math.getRandomInt(75, 200));
                 }
                 sleep.forXMillis(math.getRandomInt(400, 800));
-                NMAUtils.iterating = false;
+                utils.iterating = false;
             }
             catch (RuntimeException e)
             {
-                NMAUtils.iterating = false;
+                utils.iterating = false;
                 e.printStackTrace();
             }
         });

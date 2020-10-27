@@ -1,4 +1,4 @@
-package com.example.nmautils.api;
+package net.runelite.client.plugins.nmautils.api;
 
 public class StringAPI
 {

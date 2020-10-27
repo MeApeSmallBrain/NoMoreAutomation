@@ -1,4 +1,4 @@
-package com.example.nmautils.api;
+package net.runelite.client.plugins.nmautils.api;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -15,4 +15,5 @@ public class TimeAPI
     {
         return LocalDate.now();
     }
+
 }

@@ -23,31 +23,28 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.nomore.nmaalcher;
+package net.runelite.client.plugins.nmaalcher;
 
-import com.example.nmautils.NMAUtils;
-import com.example.nmautils.api.*;
 import com.google.inject.Provides;
-
-import javax.inject.Inject;
-
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.*;
+import net.runelite.api.Client;
 import net.runelite.api.Point;
+import net.runelite.api.Varbits;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.api.widgets.WidgetItem;
-import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDependency;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.plugins.PluginType;
-import net.runelite.client.ui.overlay.OverlayManager;
+import net.runelite.client.plugins.nmautils.NMAUtils;
+import net.runelite.client.plugins.nmautils.api.*;
 import org.pf4j.Extension;
 
+import javax.inject.Inject;
 import java.awt.*;
 
 @Extension
@@ -62,27 +59,38 @@ import java.awt.*;
 public class NMAAlcherPlugin extends Plugin
 {
 
-	@Inject private Client client;
-	@Inject private ClientThread clientThread;
-	@Inject private OverlayManager overlayManager;
-	@Inject private ConfigManager configManager;
-	@Inject private NMAUtils NMAUtils;
-	@Inject private NMAAlcherConfig config;
-	@Inject private DebugAPI debug;
-	@Inject private EquipmentAPI equipment;
-	@Inject private InventoryAPI inventory;
-	@Inject private MathAPI math;
-	@Inject private MenuAPI menu;
-	@Inject private MouseAPI mouse;
-	@Inject private NPCAPI npc;
-	@Inject private ObjectAPI object;
-	@Inject private PlayerAPI player;
-	@Inject private PointAPI point;
-	@Inject private RenderAPI render;
-	@Inject private SleepAPI sleep;
-	@Inject private StringAPI string;
-	@Inject private TabAPI tab;
-	@Inject private TimeAPI time;
+	@Inject
+	private Client client;
+	
+ 	@Inject
+	private NMAUtils utils;
+
+ 	@Inject
+	private NMAAlcherConfig config;
+
+ 	@Inject
+	private TabAPI tab;
+
+	@Inject
+	private MenuAPI menu;
+
+	@Inject
+	private MouseAPI mouse;
+
+	@Inject
+	private DebugAPI debug;
+
+	@Inject
+	private EquipmentAPI equipment;
+
+	@Inject
+	private InventoryAPI inventory;
+
+	@Inject
+	private MathAPI math;
+
+	@Inject
+	private StringAPI string;
 
 	@Provides
 	NMAAlcherConfig provideConfig(ConfigManager configManager) {
@@ -93,12 +101,12 @@ public class NMAAlcherPlugin extends Plugin
 	protected void startUp()
 	{
 		setupClick = false;
-		NMAUtils.lock = false;
-		NMAUtils.iterating = false;
+		utils.lock = false;
+		utils.iterating = false;
 		natureRuneQuantity = 0;
 		fireRuneQuantity = 0;
 		tickDelay = 4;
-		NMAUtils.setClickPoint(null);
+		utils.setClickPoint(null);
 		highAlchSpellPoint = null;
 		openMagic = false;
 	}
@@ -107,12 +115,12 @@ public class NMAAlcherPlugin extends Plugin
 	protected void shutDown()
 	{
 		setupClick = false;
-		NMAUtils.lock = false;
-		NMAUtils.iterating = false;
+		utils.lock = false;
+		utils.iterating = false;
 		natureRuneQuantity = 0;
 		fireRuneQuantity = 0;
 		tickDelay = 4;
-		NMAUtils.setClickPoint(null);
+		utils.setClickPoint(null);
 		highAlchSpellPoint = null;
 		openMagic = false;
 	}
@@ -129,7 +137,7 @@ public class NMAAlcherPlugin extends Plugin
 	@Subscribe
 	private void on(GameTick e)
 	{
-		if (!NMAUtils.runScript(tickDelay))
+		if (!utils.runScript(tickDelay))
 		{
 			tickDelay--;
 			return;
@@ -174,13 +182,13 @@ public class NMAAlcherPlugin extends Plugin
 	{
 		if (!itemCheck())
 		{
-			NMAUtils.lock = true;
+			utils.lock = true;
 			debug.log("You have run out of the item you wish to alch, the script will stop.");
 			return;
 		}
 		if (!runeCheck())
 		{
-			NMAUtils.lock = true;
+			utils.lock = true;
 			debug.log("You do not have the required runes, script will stop.");
 			return;
 		}
@@ -209,7 +217,7 @@ public class NMAAlcherPlugin extends Plugin
 				math.getRandomInt((int) bounds.getY(), (int) bounds.getY() + 10)
 		);
 		debug.log(String.valueOf(highAlchSpellPoint));
-		NMAUtils.setClickPoint(highAlchSpellPoint);
+		utils.setClickPoint(highAlchSpellPoint);
 		setupClick = true;
 	}
 

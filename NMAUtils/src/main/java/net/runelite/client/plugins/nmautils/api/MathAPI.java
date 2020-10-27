@@ -1,5 +1,4 @@
-package com.example.nmautils.api;
-
+package net.runelite.client.plugins.nmautils.api;
 
 import java.util.concurrent.ThreadLocalRandom;
 

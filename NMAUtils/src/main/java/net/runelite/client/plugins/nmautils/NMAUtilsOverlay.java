@@ -1,6 +1,5 @@
-package com.example.nmautils;
+package net.runelite.client.plugins.nmautils;
 
-import com.example.nmautils.api.MouseAPI;
 import net.runelite.api.Client;
 import net.runelite.api.Point;
 import net.runelite.client.ui.overlay.*;
@@ -14,10 +13,7 @@ public class NMAUtilsOverlay extends Overlay {
     private Client client;
 
     @Inject
-    private MouseAPI mouse;
-
-    @Inject
-    private NMAUtils NMAUtils;
+    private NMAUtils utils;
 
     @Inject
     public NMAUtilsOverlay() {
@@ -28,7 +24,7 @@ public class NMAUtilsOverlay extends Overlay {
 
     @Override
     public Dimension render(Graphics2D graphics) {
-        Point point = NMAUtils.getClickPoint();
+        Point point = utils.getClickPoint();
         if (point == null)
         {
             return null;
