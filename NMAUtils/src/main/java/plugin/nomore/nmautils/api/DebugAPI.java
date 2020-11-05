@@ -34,7 +34,7 @@ public class DebugAPI
     public void log(String string)
     {
 
-        if (!config.logVerboseMessages())
+        if (config.logVerboseMessages())
         {
             return;
         }
@@ -65,11 +65,6 @@ public class DebugAPI
 
     public void verbose(String string)
     {
-
-        if (config.logVerboseMessages())
-        {
-            return;
-        }
 
         if (config.logConsoleMessage())
         {

@@ -31,6 +31,20 @@ public class MenuAPI
                 false);
     }
 
+    public MenuEntry eatItem(WidgetItem item)
+    {
+        if (item == null)
+        {
+            return null;
+        }
+        return new MenuEntry("", "",
+                item.getId(),
+                MenuOpcode.ITEM_FIRST_OPTION.getId(),
+                item.getIndex(),
+                WidgetInfo.INVENTORY.getId(),
+                false);
+    }
+
     public MenuEntry selectSpell(Widget spell)
     {
         if (spell == null)
