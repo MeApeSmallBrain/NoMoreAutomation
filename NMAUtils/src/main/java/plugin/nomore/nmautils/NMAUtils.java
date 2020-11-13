@@ -9,8 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.MenuEntry;
 import net.runelite.api.Point;
-import net.runelite.api.events.MenuEntryAdded;
-import net.runelite.api.events.MenuOptionClicked;
+import net.runelite.api.events.*;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
@@ -20,6 +19,8 @@ import net.runelite.client.plugins.PluginType;
 import plugin.nomore.nmautils.api.DebugAPI;
 import net.runelite.client.ui.overlay.OverlayManager;
 import org.pf4j.Extension;
+import plugin.nomore.nmautils.api.NPCAPI;
+import plugin.nomore.nmautils.api.ObjectAPI;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -47,6 +48,12 @@ public class NMAUtils extends Plugin
 	@Inject private NMAUtilsOverlay overlay;
 	@Inject public ExecutorService executor;
 	@Inject private DebugAPI debug;
+
+	@Inject
+	private NPCAPI npc;
+
+	@Inject
+	private ObjectAPI object;
 
 	@Provides
 	NMAUtilsConfig provideConfig(ConfigManager configManager)
@@ -134,5 +141,92 @@ public class NMAUtils extends Plugin
 
 		return true;
 	}
+
+	@Subscribe
+	private void on(NpcSpawned event)
+	{
+		npc.onNPCSpawned(event.getNpc());
+	}
+
+	@Subscribe
+	private void on(NpcDespawned event)
+	{
+		npc.onNPCDespawned(event.getNpc());
+	}
+
+	@Subscribe
+	private void on(GameObjectSpawned event) { object.onGameObjectSpawned(event); }
+
+	@Subscribe
+	private void on(GameObjectChanged event)
+	{
+		object.onGameObjectChanged(event);
+	}
+
+	@Subscribe
+	private void on(GameObjectDespawned event)
+	{
+		object.onGameObjectDespawned(event);
+	}
+
+	@Subscribe
+	private void on(GroundObjectSpawned event)
+	{
+		object.onGroundObjectSpawned(event);
+	}
+
+	@Subscribe
+	private void on(GroundObjectChanged event)
+	{
+		object.onGroundObjectChanged(event);
+	}
+
+	@Subscribe
+	private void on(GroundObjectDespawned event)
+	{
+		object.onGroundObjectDespawned(event);
+	}
+
+	@Subscribe
+	private void on(WallObjectSpawned event)
+	{
+		object.onWallObjectSpawned(event);
+	}
+
+	@Subscribe
+	private void on(WallObjectChanged event)
+	{
+		object.onWallObjectChanged(event);
+	}
+
+	@Subscribe
+	private void on(WallObjectDespawned event)
+	{
+		object.onWallObjectDespawned(event);
+	}
+
+	@Subscribe
+	private void on(DecorativeObjectSpawned event)
+	{
+		object.onDecorativeObjectSpawned(event);
+	}
+
+	@Subscribe
+	private void on(DecorativeObjectChanged event)
+	{
+		object.onDecorativeObjectChanged(event);
+	}
+
+	@Subscribe
+	private void on(DecorativeObjectDespawned event)
+	{
+		object.onDecorativeObjectDespawned(event);
+	}
+
+	@Subscribe
+	private void on(ItemSpawned event) { object.onItemSpawned(event); }
+
+	@Subscribe
+	private void on(ItemDespawned event) { object.onItemDespawned(event); }
 
 }

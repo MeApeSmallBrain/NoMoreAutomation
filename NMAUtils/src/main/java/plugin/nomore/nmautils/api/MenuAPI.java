@@ -17,20 +17,6 @@ public class MenuAPI
     @Inject
     private NMAUtils utils;
 
-    public MenuEntry interactWithNPC(NPC npc)
-    {
-        if (npc == null)
-        {
-            return null;
-        }
-        return new MenuEntry("", "",
-                npc.getIndex(),
-                MenuOpcode.NPC_FIRST_OPTION.getId(),
-                0,
-                0,
-                false);
-    }
-
     public MenuEntry eatItem(WidgetItem item)
     {
         if (item == null)
@@ -70,20 +56,6 @@ public class MenuAPI
                 MenuOpcode.ITEM_USE_ON_WIDGET.getId(),
                 item.getIndex(),
                 WidgetInfo.INVENTORY.getId(),
-                false);
-    }
-
-    public MenuEntry tradeWithNPC(NPC npc)
-    {
-        if (npc == null)
-        {
-            return null;
-        }
-        return new MenuEntry("", "",
-                npc.getIndex(),
-                MenuOpcode.NPC_SECOND_OPTION.getId(),
-                0,
-                0,
                 false);
     }
 

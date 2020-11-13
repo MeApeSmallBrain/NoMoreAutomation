@@ -1,5 +1,6 @@
 package plugin.nomore.nmautils.api;
 
+import net.runelite.api.Client;
 import net.runelite.api.Point;
 import net.runelite.api.widgets.WidgetItem;
 
@@ -8,6 +9,9 @@ import java.awt.*;
 
 public class PointAPI
 {
+
+    @Inject
+    private Client client;
 
     @Inject
     private MathAPI math;
@@ -58,6 +62,15 @@ public class PointAPI
         final int y = (int) (rect.getY() + math.getRandomInt((int) rect.getHeight() / 6 * -1, (int) rect.getHeight() / 6) + rect.getHeight() / 2);
 
         return new Point(x, y);
+    }
+
+    public Point getClientBounds()
+    {
+        int x = client.getCanvas().getX();
+        int y = client.getCanvas().getY();
+        int width = client.getCanvasWidth();
+        int height = client.getCanvasHeight();
+        return new Point(math.getRandomInt(x, x + width), math.getRandomInt(y, y + height));
     }
 
 }

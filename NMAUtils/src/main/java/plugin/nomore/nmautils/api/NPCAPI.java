@@ -1,11 +1,11 @@
 package plugin.nomore.nmautils.api;
 
-import net.runelite.api.Client;
-import net.runelite.api.NPC;
+import net.runelite.api.*;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.queries.NPCQuery;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -20,50 +20,24 @@ public class NPCAPI
     @Inject
     private StringAPI string;
 
-    public NPC getClosestNPC(String npcName)
+    public static List<NPC> npcs = new ArrayList<>();
+
+    public void onNPCSpawned(NPC npc)
     {
-        assert client.isClientThread();
-
-        if (client.getLocalPlayer() == null)
-        {
-            return null;
-        }
-
-        return new NPCQuery()
-                .nameEquals(npcName)
-                .result(client)
-                .nearestTo(client.getLocalPlayer());
+        npcs.add(npc);
     }
 
-    public NPC getClosestNPC(int npcId)
+    public void onNPCDespawned(NPC npc)
     {
-        assert client.isClientThread();
-
-        if (client.getLocalPlayer() == null)
-        {
-            return null;
-        }
-
-        return new NPCQuery()
-                .idEquals(npcId)
-                .result(client)
-                .nearestTo(client.getLocalPlayer());
+        npcs.remove(npc);
     }
 
-    public List<NPC> getNPCS()
+    public List<NPC> get()
     {
-        assert client.isClientThread();
-
-        if (client.getLocalPlayer() == null)
-        {
-            return null;
-        }
-
-        return new NPCQuery()
-                .result(client).list;
+        return npcs;
     }
 
-    public List<NPC> getNPCSSortedByDistance()
+    public NPC getClosest()
     {
         assert client.isClientThread();
 
@@ -72,17 +46,17 @@ public class NPCAPI
             return null;
         }
 
-        return new NPCQuery()
-                .result(client)
+        return get()
                 .stream()
-                .sorted(Comparator.comparing(entityType -> entityType
+                .min(Comparator.comparing(entityType
+                        -> entityType
                         .getLocalLocation()
                         .distanceTo(client.getLocalPlayer()
                                 .getLocalLocation())))
-                .collect(Collectors.toList());
+                .orElse(null);
     }
 
-    public List<NPC> getNPCSMatching(String... npcName)
+    public NPC getClosestMatching(String npcName)
     {
         assert client.isClientThread();
 
@@ -91,11 +65,92 @@ public class NPCAPI
             return null;
         }
 
-        return new NPCQuery()
-                .result(client)
+        return get()
+                .stream()
+                .filter(npc
+                        -> npc != null
+                        && npc.getName() != null
+                        && npc.getName().equalsIgnoreCase(npcName))
+                .min(Comparator.comparing(entityType
+                        -> entityType
+                        .getLocalLocation()
+                        .distanceTo(client.getLocalPlayer()
+                                .getLocalLocation())))
+                .orElse(null);
+    }
+
+    public NPC getClosestMatching(int npcId)
+    {
+        assert client.isClientThread();
+
+        if (client.getLocalPlayer() == null)
+        {
+            return null;
+        }
+
+        return get()
+                .stream()
+                .filter(npc
+                        -> npc != null
+                        && npc.getId() == npcId)
+                .min(Comparator.comparing(entityType
+                        -> entityType
+                        .getLocalLocation()
+                        .distanceTo(client.getLocalPlayer()
+                                .getLocalLocation())))
+                .orElse(null);
+    }
+
+    public List<NPC> getNpcsMatching(String... npcNames)
+    {
+        assert client.isClientThread();
+
+        if (client.getLocalPlayer() == null)
+        {
+            return null;
+        }
+
+        return get()
                 .stream()
                 .filter(i -> i != null
-                        && Arrays.stream(npcName)
+                        && i.getName() != null
+                        && Arrays.stream(npcNames)
+                        .anyMatch(s -> string.removeWhiteSpaces(s)
+                                .equalsIgnoreCase(string.removeWhiteSpaces(i.getName()))))
+                .collect(Collectors.toList());
+    }
+
+    public List<NPC> getNpcsMatching(int... npcIds)
+    {
+        assert client.isClientThread();
+
+        if (client.getLocalPlayer() == null)
+        {
+            return null;
+        }
+
+        return get()
+                .stream()
+                .filter(i -> i != null
+                        && Arrays.stream(npcIds)
+                        .anyMatch(itemId -> itemId == i.getId()))
+                .collect(Collectors.toList());
+    }
+
+    public List<NPC> getNpcsMatchingSortedByClosest(String... npcNames)
+    {
+        assert client.isClientThread();
+
+        if (client.getLocalPlayer() == null)
+        {
+            return null;
+        }
+
+        return get()
+                .stream()
+                .filter(i -> i != null
+                        && i.getName() != null
+                        && Arrays.stream(npcNames)
                         .anyMatch(s -> string.removeWhiteSpaces(s)
                                 .equalsIgnoreCase(string.removeWhiteSpaces(i.getName()))))
                 .sorted(Comparator.comparing(entityType -> entityType
@@ -105,7 +160,7 @@ public class NPCAPI
                 .collect(Collectors.toList());
     }
 
-    public List<NPC> getNPCSMatching(int... npcId)
+    public List<NPC> getNpcsMatchingSortedByClosest(int... npcIds)
     {
         assert client.isClientThread();
 
@@ -114,12 +169,11 @@ public class NPCAPI
             return null;
         }
 
-        return new NPCQuery()
-                .result(client)
+        return get()
                 .stream()
                 .filter(i -> i != null
-                        && Arrays.stream(npcId)
-                        .anyMatch(s -> s == i.getId()))
+                        && Arrays.stream(npcIds)
+                        .anyMatch(itemId -> itemId == i.getId()))
                 .sorted(Comparator.comparing(entityType -> entityType
                         .getLocalLocation()
                         .distanceTo(client.getLocalPlayer()
@@ -127,136 +181,36 @@ public class NPCAPI
                 .collect(Collectors.toList());
     }
 
+    ////////////////////////////
 
+    // MenuEntries
 
-    public List<NPC> getNPCSNotMatching(String... npcName)
+    public MenuEntry attack(NPC npc)
     {
-        assert client.isClientThread();
-
-        if (client.getLocalPlayer() == null)
+        if (npc == null)
         {
             return null;
         }
-
-        return new NPCQuery()
-                .result(client)
-                .stream()
-                .filter(i -> i != null
-                        && Arrays.stream(npcName)
-                        .noneMatch(s -> string.removeWhiteSpaces(s)
-                                .equalsIgnoreCase(string.removeWhiteSpaces(i.getName()))))
-                .sorted(Comparator.comparing(entityType -> entityType
-                        .getLocalLocation()
-                        .distanceTo(client.getLocalPlayer()
-                                .getLocalLocation())))
-                .collect(Collectors.toList());
+        return new MenuEntry("", "",
+                npc.getIndex(),
+                MenuOpcode.NPC_SECOND_OPTION.getId(),
+                0,
+                0,
+                false);
     }
 
-    public List<NPC> getNPCSNotMatching(int... npcId)
+    public MenuEntry trade(NPC npc)
     {
-        assert client.isClientThread();
-
-        if (client.getLocalPlayer() == null)
+        if (npc == null)
         {
             return null;
         }
-
-        return new NPCQuery()
-                .result(client)
-                .stream()
-                .filter(i -> i != null
-                        && Arrays.stream(npcId)
-                        .noneMatch(s -> s == i.getId()))
-                .sorted(Comparator.comparing(entityType -> entityType
-                        .getLocalLocation()
-                        .distanceTo(client.getLocalPlayer()
-                                .getLocalLocation())))
-                .collect(Collectors.toList());
-    }
-
-    public NPC getClosestNPCWithinDistanceTo(String npcName, WorldPoint comparisonTile, int maxTileDistance)
-    {
-        assert client.isClientThread();
-
-        if (client.getLocalPlayer() == null)
-        {
-            return null;
-        }
-
-        return new NPCQuery()
-                .isWithinDistance(comparisonTile, maxTileDistance)
-                .result(client)
-                .stream()
-                .filter(i -> i != null && string.removeWhiteSpaces(i.getName())
-                        .equalsIgnoreCase(string.removeWhiteSpaces(npcName)))
-                .findFirst()
-                .orElse(null);
-    }
-
-    public NPC getClosestNPCWithinDistanceTo(int npcId, WorldPoint comparisonTile, int maxTileDistance)
-    {
-        assert client.isClientThread();
-
-        if (client.getLocalPlayer() == null)
-        {
-            return null;
-        }
-
-        return new NPCQuery()
-                .isWithinDistance(comparisonTile, maxTileDistance)
-                .result(client)
-                .stream()
-                .filter(i -> i != null && i.getId() == npcId)
-                .findFirst()
-                .orElse(null);
-    }
-
-
-    public List<NPC> getNPCSWithinDistanceTo(String[] npcName, WorldPoint comparisonTile, int maxTileDistance)
-    {
-        assert client.isClientThread();
-
-        if (client.getLocalPlayer() == null)
-        {
-            return null;
-        }
-
-        return new NPCQuery()
-                .isWithinDistance(comparisonTile, maxTileDistance)
-                .result(client)
-                .stream()
-                .filter(i -> i != null
-                        && Arrays.stream(npcName)
-                        .anyMatch(s -> string.removeWhiteSpaces(s)
-                                .equalsIgnoreCase(string.removeWhiteSpaces(i.getName()))))
-                .sorted(Comparator.comparing(entityType -> entityType
-                        .getLocalLocation()
-                        .distanceTo(client.getLocalPlayer()
-                                .getLocalLocation())))
-                .collect(Collectors.toList());
-    }
-
-    public List<NPC> getNPCSWithinDistanceTo(Integer[] npcId, WorldPoint comparisonTile, int maxTileDistance)
-    {
-        assert client.isClientThread();
-
-        if (client.getLocalPlayer() == null)
-        {
-            return null;
-        }
-
-        return new NPCQuery()
-                .isWithinDistance(comparisonTile, maxTileDistance)
-                .result(client)
-                .stream()
-                .filter(i -> i != null
-                        && Arrays.stream(npcId)
-                        .anyMatch(s -> s == i.getId()))
-                .sorted(Comparator.comparing(entityType -> entityType
-                        .getLocalLocation()
-                        .distanceTo(client.getLocalPlayer()
-                                .getLocalLocation())))
-                .collect(Collectors.toList());
+        return new MenuEntry("", "",
+                npc.getIndex(),
+                MenuOpcode.NPC_SECOND_OPTION.getId(),
+                0,
+                0,
+                false);
     }
 
 }

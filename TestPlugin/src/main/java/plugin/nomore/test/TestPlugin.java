@@ -28,6 +28,8 @@ package plugin.nomore.test;
 import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
+import net.runelite.api.NPC;
+import net.runelite.api.TileObject;
 import net.runelite.api.coords.WorldArea;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.GameTick;
@@ -39,10 +41,10 @@ import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.plugins.PluginType;
 import org.pf4j.Extension;
 import plugin.nomore.nmautils.NMAUtils;
-import plugin.nomore.nmautils.api.DebugAPI;
-import plugin.nomore.nmautils.api.LocationAPI;
+import plugin.nomore.nmautils.api.*;
 
 import javax.inject.Inject;
+import java.util.List;
 
 @Extension
 @PluginDescriptor(
@@ -66,7 +68,19 @@ public class TestPlugin extends Plugin
 	private DebugAPI debug;
 
 	@Inject
-	private LocationAPI location;
+	private ObjectAPI object;
+
+	@Inject
+	private MathAPI math;
+
+	@Inject
+	private MenuAPI menu;
+
+	@Inject
+	private MouseAPI mouse;
+
+	@Inject
+	private PointAPI point;
 
 	private int tickDelay = 2;
 
@@ -91,7 +105,6 @@ public class TestPlugin extends Plugin
 	@Subscribe
 	private void on(GameTick gameTick)
 	{
-
 		if (!utils.runScript(tickDelay))
 		{
 			tickDelay--;
@@ -103,7 +116,12 @@ public class TestPlugin extends Plugin
 			return;
 		}
 
+		if (object.getClosestTileItem() != null)
+		{
+			debug.log("The closest tile item is: " + client.getItemDefinition(object.getClosestTileItem().getId()).getName());
+		}
 
+		//tickDelay = 5;
 	}
 
 }
