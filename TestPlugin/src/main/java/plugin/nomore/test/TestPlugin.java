@@ -28,22 +28,24 @@ package plugin.nomore.test;
 import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
-import net.runelite.api.NPC;
-import net.runelite.api.TileObject;
-import net.runelite.api.coords.WorldArea;
-import net.runelite.api.coords.WorldPoint;
+import net.runelite.api.Player;
 import net.runelite.api.events.GameTick;
+import net.runelite.api.events.PlayerDespawned;
+import net.runelite.api.events.PlayerSpawned;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDependency;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.plugins.PluginType;
+import net.runelite.client.ui.overlay.OverlayManager;
 import org.pf4j.Extension;
 import plugin.nomore.nmautils.NMAUtils;
 import plugin.nomore.nmautils.api.*;
 
 import javax.inject.Inject;
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Extension
@@ -62,6 +64,9 @@ public class TestPlugin extends Plugin
 	private Client client;
 
 	@Inject
+	private TestOverlay overlay;
+
+	@Inject
 	private NMAUtils utils;
 
 	@Inject
@@ -69,6 +74,12 @@ public class TestPlugin extends Plugin
 
 	@Inject
 	private ObjectAPI object;
+
+	@Inject
+	private GroundItemAPI item;
+
+	@Inject
+	private PlayersAPI players;
 
 	@Inject
 	private MathAPI math;
@@ -82,6 +93,9 @@ public class TestPlugin extends Plugin
 	@Inject
 	private PointAPI point;
 
+	@Inject
+	private OverlayManager overlayManager;
+
 	private int tickDelay = 2;
 
 	@Provides
@@ -93,12 +107,14 @@ public class TestPlugin extends Plugin
 	@Override
 	protected void startUp()
 	{
+		overlayManager.add(overlay);
 		debug.log("Plugin started.");
 	}
 
 	@Override
 	protected void shutDown()
 	{
+		overlayManager.remove(overlay);
 		debug.log("Plugin finished.");
 	}
 
@@ -114,11 +130,6 @@ public class TestPlugin extends Plugin
 		if (client.getLocalPlayer() == null)
 		{
 			return;
-		}
-
-		if (object.getClosestTileItem() != null)
-		{
-			debug.log("The closest tile item is: " + client.getItemDefinition(object.getClosestTileItem().getId()).getName());
 		}
 
 		//tickDelay = 5;

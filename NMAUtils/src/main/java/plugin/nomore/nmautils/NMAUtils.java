@@ -16,11 +16,9 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.plugins.PluginType;
-import plugin.nomore.nmautils.api.DebugAPI;
+import plugin.nomore.nmautils.api.*;
 import net.runelite.client.ui.overlay.OverlayManager;
 import org.pf4j.Extension;
-import plugin.nomore.nmautils.api.NPCAPI;
-import plugin.nomore.nmautils.api.ObjectAPI;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -54,6 +52,12 @@ public class NMAUtils extends Plugin
 
 	@Inject
 	private ObjectAPI object;
+
+	@Inject
+	private GroundItemAPI item;
+
+	@Inject
+	private PlayersAPI players;
 
 	@Provides
 	NMAUtilsConfig provideConfig(ConfigManager configManager)
@@ -224,9 +228,15 @@ public class NMAUtils extends Plugin
 	}
 
 	@Subscribe
-	private void on(ItemSpawned event) { object.onItemSpawned(event); }
+	private void on(ItemSpawned event) { item.onGroundItemSpawned(event); }
 
 	@Subscribe
-	private void on(ItemDespawned event) { object.onItemDespawned(event); }
+	private void on(ItemDespawned event) { item.onGroundItemDespawned(event); }
+
+	@Subscribe
+	private void on(PlayerSpawned event) { players.onPlayerSpawned(event); }
+
+	@Subscribe
+	private void on(PlayerDespawned event) { players.onPlayerDespawned(event); }
 
 }

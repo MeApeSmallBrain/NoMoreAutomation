@@ -21,7 +21,6 @@ public class ObjectAPI
     public static List<GroundObject> groundObjects = new ArrayList<>();
     public static List<WallObject> wallObjects = new ArrayList<>();
     public static List<DecorativeObject> decorativeObjects = new ArrayList<>();
-    public static List<TileItem> tileItems = new ArrayList<>();
 
     //  ████████╗██╗██╗     ███████╗
     //  ╚══██╔══╝██║██║     ██╔════╝
@@ -215,10 +214,7 @@ public class ObjectAPI
         onGameObject(event.getGameObject(), null);
     }
     
-    public void onGameObjectChanged(GameObjectChanged event)
-    {
-        onGameObject(event.getGameObject(), event.getPrevious());
-    }
+    public void onGameObjectChanged(GameObjectChanged event) { onGameObject(event.getGameObject(), event.getPrevious()); }
 
     public void onGameObjectDespawned(GameObjectDespawned event)
     {
@@ -236,7 +232,7 @@ public class ObjectAPI
         gameObjects.add(newObject);
     }
 
-    public List<GameObject> getGameObject()
+    public List<GameObject> getGameObjects()
     {
         assert client.isClientThread();
 
@@ -248,7 +244,7 @@ public class ObjectAPI
         return gameObjects;
     }
 
-    public GameObject getClosestGameObjects()
+    public GameObject getClosestGameObject()
     {
         assert client.isClientThread();
 
@@ -257,7 +253,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getGameObject()
+        return getGameObjects()
                 .stream()
                 .min(Comparator.comparing(entityType
                         -> entityType
@@ -267,7 +263,7 @@ public class ObjectAPI
                 .orElse(null);
     }
 
-    public GameObject getClosestGameObjectsMatching(String gameObjectName)
+    public GameObject getClosestGameObjectMatching(String gameObjectName)
     {
         assert client.isClientThread();
 
@@ -276,7 +272,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getGameObject()
+        return getGameObjects()
                 .stream()
                 .filter(gameObject
                         -> gameObject != null
@@ -291,7 +287,7 @@ public class ObjectAPI
                 .orElse(null);
     }
 
-    public GameObject getClosestGameObjectsMatching(int gameObjectId)
+    public GameObject getClosestGameObjectMatching(int gameObjectId)
     {
         assert client.isClientThread();
 
@@ -300,7 +296,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getGameObject()
+        return getGameObjects()
                 .stream()
                 .filter(gameObject
                         -> gameObject != null
@@ -322,7 +318,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getGameObject()
+        return getGameObjects()
                 .stream()
                 .filter(gameObject -> gameObject != null
                         && Arrays.stream(gameObjectNames)
@@ -341,7 +337,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getGameObject()
+        return getGameObjects()
                 .stream()
                 .filter(gameObject -> gameObject != null
                         && Arrays.stream(gameObjectIds)
@@ -358,7 +354,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getGameObject()
+        return getGameObjects()
                 .stream()
                 .filter(gameObject -> gameObject != null
                         && Arrays.stream(gameObjectNames)
@@ -381,7 +377,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getGameObject()
+        return getGameObjects()
                 .stream()
                 .filter(gameObject -> gameObject != null
                         && Arrays.stream(gameObjectIds)
@@ -430,7 +426,7 @@ public class ObjectAPI
         groundObjects.add(newObject);
     }
 
-    public List<GroundObject> getGroundObject()
+    public List<GroundObject> getGroundObjects()
     {
         assert client.isClientThread();
 
@@ -442,7 +438,7 @@ public class ObjectAPI
         return groundObjects;
     }
 
-    public GroundObject getClosestGroundObjects()
+    public GroundObject getClosestGroundObject()
     {
         assert client.isClientThread();
 
@@ -451,7 +447,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getGroundObject()
+        return getGroundObjects()
                 .stream()
                 .min(Comparator.comparing(entityType
                         -> entityType
@@ -461,7 +457,7 @@ public class ObjectAPI
                 .orElse(null);
     }
 
-    public GroundObject getClosestGroundObjectsMatching(String groundObjectName)
+    public GroundObject getClosestGroundObjectMatching(String groundObjectName)
     {
         assert client.isClientThread();
 
@@ -470,7 +466,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getGroundObject()
+        return getGroundObjects()
                 .stream()
                 .filter(groundObject
                         -> groundObject != null
@@ -485,7 +481,7 @@ public class ObjectAPI
                 .orElse(null);
     }
 
-    public GroundObject getClosestGroundObjectsMatching(int groundObjectId)
+    public GroundObject getClosestGroundObjectMatching(int groundObjectId)
     {
         assert client.isClientThread();
 
@@ -494,7 +490,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getGroundObject()
+        return getGroundObjects()
                 .stream()
                 .filter(groundObject
                         -> groundObject != null
@@ -516,7 +512,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getGroundObject()
+        return getGroundObjects()
                 .stream()
                 .filter(groundObject -> groundObject != null
                         && Arrays.stream(groundObjectNames)
@@ -535,7 +531,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getGroundObject()
+        return getGroundObjects()
                 .stream()
                 .filter(groundObject -> groundObject != null
                         && Arrays.stream(groundObjectIds)
@@ -552,7 +548,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getGroundObject()
+        return getGroundObjects()
                 .stream()
                 .filter(groundObject -> groundObject != null
                         && Arrays.stream(groundObjectNames)
@@ -575,7 +571,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getGroundObject()
+        return getGroundObjects()
                 .stream()
                 .filter(groundObject -> groundObject != null
                         && Arrays.stream(groundObjectIds)
@@ -624,7 +620,7 @@ public class ObjectAPI
         wallObjects.add(newObject);
     }
 
-    public List<WallObject> getWallObject()
+    public List<WallObject> getWallObjects()
     {
         assert client.isClientThread();
 
@@ -636,7 +632,7 @@ public class ObjectAPI
         return wallObjects;
     }
 
-    public WallObject getClosestWallObjects()
+    public WallObject getClosestWallObject()
     {
         assert client.isClientThread();
 
@@ -645,7 +641,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getWallObject()
+        return getWallObjects()
                 .stream()
                 .min(Comparator.comparing(entityType
                         -> entityType
@@ -655,7 +651,7 @@ public class ObjectAPI
                 .orElse(null);
     }
 
-    public WallObject getClosestWallObjectsMatching(String wallObjectName)
+    public WallObject getClosestWallObjectMatching(String wallObjectName)
     {
         assert client.isClientThread();
 
@@ -664,7 +660,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getWallObject()
+        return getWallObjects()
                 .stream()
                 .filter(wallObject
                         -> wallObject != null
@@ -679,7 +675,7 @@ public class ObjectAPI
                 .orElse(null);
     }
 
-    public WallObject getClosestWallObjectsMatching(int wallObjectId)
+    public WallObject getClosestWallObjectMatching(int wallObjectId)
     {
         assert client.isClientThread();
 
@@ -688,7 +684,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getWallObject()
+        return getWallObjects()
                 .stream()
                 .filter(wallObject
                         -> wallObject != null
@@ -710,7 +706,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getWallObject()
+        return getWallObjects()
                 .stream()
                 .filter(wallObject -> wallObject != null
                         && Arrays.stream(wallObjectNames)
@@ -729,7 +725,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getWallObject()
+        return getWallObjects()
                 .stream()
                 .filter(wallObject -> wallObject != null
                         && Arrays.stream(wallObjectIds)
@@ -746,7 +742,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getWallObject()
+        return getWallObjects()
                 .stream()
                 .filter(wallObject -> wallObject != null
                         && Arrays.stream(wallObjectNames)
@@ -769,7 +765,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getWallObject()
+        return getWallObjects()
                 .stream()
                 .filter(wallObject -> wallObject != null
                         && Arrays.stream(wallObjectIds)
@@ -821,7 +817,7 @@ public class ObjectAPI
         decorativeObjects.add(newObject);
     }
 
-    public List<DecorativeObject> getDecorativeObject()
+    public List<DecorativeObject> getDecorativeObjects()
     {
         assert client.isClientThread();
 
@@ -833,7 +829,7 @@ public class ObjectAPI
         return decorativeObjects;
     }
 
-    public DecorativeObject getClosestDecorativeObjects()
+    public DecorativeObject getClosestDecorativeObject()
     {
         assert client.isClientThread();
 
@@ -842,7 +838,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getDecorativeObject()
+        return getDecorativeObjects()
                 .stream()
                 .min(Comparator.comparing(entityType
                         -> entityType
@@ -852,7 +848,7 @@ public class ObjectAPI
                 .orElse(null);
     }
 
-    public DecorativeObject getClosestDecorativeObjectsMatching(String decorativeObjectName)
+    public DecorativeObject getClosestDecorativeObjectMatching(String decorativeObjectName)
     {
         assert client.isClientThread();
 
@@ -861,7 +857,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getDecorativeObject()
+        return getDecorativeObjects()
                 .stream()
                 .filter(decorativeObject
                         -> decorativeObject != null
@@ -876,7 +872,7 @@ public class ObjectAPI
                 .orElse(null);
     }
 
-    public DecorativeObject getClosestDecorativeObjectsMatching(int decorativeObjectId)
+    public DecorativeObject getClosestDecorativeObjectMatching(int decorativeObjectId)
     {
         assert client.isClientThread();
 
@@ -885,7 +881,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getDecorativeObject()
+        return getDecorativeObjects()
                 .stream()
                 .filter(decorativeObject
                         -> decorativeObject != null
@@ -907,7 +903,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getDecorativeObject()
+        return getDecorativeObjects()
                 .stream()
                 .filter(decorativeObject -> decorativeObject != null
                         && Arrays.stream(decorativeObjectNames)
@@ -926,7 +922,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getDecorativeObject()
+        return getDecorativeObjects()
                 .stream()
                 .filter(decorativeObject -> decorativeObject != null
                         && Arrays.stream(decorativeObjectIds)
@@ -943,7 +939,7 @@ public class ObjectAPI
             return null;
         }
 
-        return getDecorativeObject()
+        return getDecorativeObjects()
                 .stream()
                 .filter(decorativeObject -> decorativeObject != null
                         && Arrays.stream(decorativeObjectNames)
@@ -966,201 +962,12 @@ public class ObjectAPI
             return null;
         }
 
-        return getDecorativeObject()
+        return getDecorativeObjects()
                 .stream()
                 .filter(decorativeObject -> decorativeObject != null
                         && Arrays.stream(decorativeObjectIds)
                         .anyMatch(itemId -> itemId == decorativeObject.getId()))
                 .sorted(Comparator.comparing(entityType -> entityType
-                        .getLocalLocation()
-                        .distanceTo(client.getLocalPlayer()
-                                .getLocalLocation())))
-                .collect(Collectors.toList());
-    }
-    
-    //  ██╗████████╗███████╗███╗   ███╗                   
-    //  ██║╚══██╔══╝██╔════╝████╗ ████║                   
-    //  ██║   ██║   █████╗  ██╔████╔██║                   
-    //  ██║   ██║   ██╔══╝  ██║╚██╔╝██║                   
-    //  ██║   ██║   ███████╗██║ ╚═╝ ██║                   
-    //  ╚═╝   ╚═╝   ╚══════╝╚═╝     ╚═╝                   
-    //   ██████╗ ██████╗      ██╗███████╗ ██████╗████████╗
-    //  ██╔═══██╗██╔══██╗     ██║██╔════╝██╔════╝╚══██╔══╝
-    //  ██║   ██║██████╔╝     ██║█████╗  ██║        ██║   
-    //  ██║   ██║██╔══██╗██   ██║██╔══╝  ██║        ██║   
-    //  ╚██████╔╝██████╔╝╚█████╔╝███████╗╚██████╗   ██║   
-    //   ╚═════╝ ╚═════╝  ╚════╝ ╚══════╝ ╚═════╝   ╚═╝   
-    //
-   
-    public void onItemSpawned(ItemSpawned event)
-    {
-        onItem(event.getItem(), null);
-    }
-
-    public void onItemDespawned(ItemDespawned event)
-    {
-        onItem(null, event.getItem());
-    }
-
-    private void onItem(TileItem newObject, TileItem oldObject)
-    {
-        tileItems.remove(oldObject);
-        if (newObject == null)
-        {
-            return;
-        }
-        tileItems.add(newObject);
-    }
-
-    public List<TileItem> getTileItems()
-    {
-        return tileItems;
-    }
-
-    public TileItem getClosestTileItem()
-    {
-        assert client.isClientThread();
-
-        if (client.getLocalPlayer() == null)
-        {
-            return null;
-        }
-
-        return getTileItems()
-                .stream()
-                .min(Comparator.comparing(entityType
-                        -> entityType
-                        .getTile()
-                        .getLocalLocation()
-                        .distanceTo(client.getLocalPlayer()
-                                .getLocalLocation())))
-                .orElse(null);
-    }
-
-    public TileItem getClosestTileItemMatching(String tileItemName)
-    {
-        assert client.isClientThread();
-
-        if (client.getLocalPlayer() == null)
-        {
-            return null;
-        }
-
-        return getTileItems()
-                .stream()
-                .filter(tileItem
-                        -> tileItem != null
-                        && client.getObjectDefinition(tileItem.getId())
-                        .getName()
-                        .equalsIgnoreCase(tileItemName))
-                .min(Comparator.comparing(entityType
-                        -> entityType
-                        .getTile()
-                        .getLocalLocation()
-                        .distanceTo(client.getLocalPlayer()
-                                .getLocalLocation())))
-                .orElse(null);
-    }
-
-    public TileItem getClosestTileItemMatching(int tileItemId)
-    {
-        assert client.isClientThread();
-
-        if (client.getLocalPlayer() == null)
-        {
-            return null;
-        }
-
-        return getTileItems()
-                .stream()
-                .filter(tileItem
-                        -> tileItem != null
-                        && tileItem.getId() == tileItemId)
-                .min(Comparator.comparing(entityType
-                        -> entityType
-                        .getTile()
-                        .getLocalLocation()
-                        .distanceTo(client.getLocalPlayer()
-                                .getLocalLocation())))
-                .orElse(null);
-    }
-
-    public List<TileItem> getTileItemsMatching(String... tileItemNames)
-    {
-        assert client.isClientThread();
-
-        if (client.getLocalPlayer() == null)
-        {
-            return null;
-        }
-
-        return getTileItems()
-                .stream()
-                .filter(tileItem -> tileItem != null
-                        && Arrays.stream(tileItemNames)
-                        .anyMatch(s -> string.removeWhiteSpaces(s)
-                                .equalsIgnoreCase(string.removeWhiteSpaces(client.getObjectDefinition(tileItem.getId())
-                                        .getName()))))
-                .collect(Collectors.toList());
-    }
-
-    public List<TileItem> getTileItemsMatching(int... tileItemIds)
-    {
-        assert client.isClientThread();
-
-        if (client.getLocalPlayer() == null)
-        {
-            return null;
-        }
-
-        return getTileItems()
-                .stream()
-                .filter(tileItem -> tileItem != null
-                        && Arrays.stream(tileItemIds)
-                        .anyMatch(itemId -> itemId == tileItem.getId()))
-                .collect(Collectors.toList());
-    }
-
-    public List<TileItem> getMatchingTileItemsSortedByClosest(String... tileItemNames)
-    {
-        assert client.isClientThread();
-
-        if (client.getLocalPlayer() == null)
-        {
-            return null;
-        }
-
-        return getTileItems()
-                .stream()
-                .filter(tileItem -> tileItem != null
-                        && Arrays.stream(tileItemNames)
-                        .anyMatch(s -> string.removeWhiteSpaces(s)
-                                .equalsIgnoreCase(string.removeWhiteSpaces(client.getObjectDefinition(tileItem.getId())
-                                        .getName()))))
-                .sorted(Comparator.comparing(entityType -> entityType
-                        .getTile()
-                        .getLocalLocation()
-                        .distanceTo(client.getLocalPlayer()
-                                .getLocalLocation())))
-                .collect(Collectors.toList());
-    }
-
-    public List<TileItem> getMatchingTileItemsSortedByClosest(int... tileItemIds)
-    {
-        assert client.isClientThread();
-
-        if (client.getLocalPlayer() == null)
-        {
-            return null;
-        }
-
-        return getTileItems()
-                .stream()
-                .filter(tileItem -> tileItem != null
-                        && Arrays.stream(tileItemIds)
-                        .anyMatch(itemId -> itemId == tileItem.getId()))
-                .sorted(Comparator.comparing(entityType -> entityType
-                        .getTile()
                         .getLocalLocation()
                         .distanceTo(client.getLocalPlayer()
                                 .getLocalLocation())))
